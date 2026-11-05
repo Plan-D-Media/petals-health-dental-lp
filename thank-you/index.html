@@ -1,0 +1,65 @@
+<!doctype html>
+<html lang="en-IN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>Petals Dental | Petals Health, Kolkata</title>
+<meta name="theme-color" content="#00427e">
+<link rel="icon" type="image/png" href="../assets/img/logo.png">
+<style>
+@font-face { font-family: 'Bricolage Grotesque'; src: url('../assets/fonts/BricolageGrotesque-Variable.woff2') format('woff2'); font-weight: 200 800; font-style: normal; font-display: swap; }
+:root { --blue-900: #00427e; --white: #fff; --black: #000; --grey-600: #4d4d4d; --gutter: 16px; --fs-display-lg: 34px; --fs-body: 19px; --fs-button: 18px; }
+@media (min-width: 768px) { :root { --gutter: 32px; --fs-display-lg: 44px; --fs-body: 20px; --fs-button: 20px; } }
+@media (min-width: 1024px) { :root { --gutter: 56px; --fs-display-lg: 58px; --fs-body: 21px; --fs-button: 22px; } }
+*, *::before, *::after { box-sizing: border-box; }
+body { margin: 0; background: var(--white); color: var(--black); font-family: 'Bricolage Grotesque', Arial, system-ui, sans-serif; font-size: 16px; line-height: 1.45; font-synthesis: none; }
+h1, p { margin: 0; }
+img { display: block; }
+:focus-visible { outline: 2px solid var(--blue-900); outline-offset: 2px; border-radius: 4px; }
+.top { background: var(--white); box-shadow: 0 1px 0 rgba(0, 66, 126, 0.10); }
+.top__row { display: flex; align-items: center; justify-content: space-between; gap: 12px; width: min(1176px, calc(100% - 2 * var(--gutter))); min-height: 64px; margin-inline: auto; padding-block: 6px; }
+.top__logo { display: inline-flex; justify-content: center; min-width: 44px; }
+.top__logo img { width: 41px; height: 52px; }
+.top__phone { display: inline-flex; align-items: center; min-height: 44px; color: var(--blue-900); font-weight: 500; text-decoration: none; }
+.ty { display: grid; place-items: center; min-height: 70vh; padding: 56px var(--gutter); background: radial-gradient(750px circle at 50% 50%, #fff 0%, #edf7ff 100%); text-align: center; }
+.ty__box { max-width: 560px; }
+.ty__box[hidden] { display: none; }
+.ty__mark { display: inline-flex; align-items: center; justify-content: center; width: 56px; height: 56px; margin-bottom: 16px; border-radius: 50%; background: var(--blue-900); color: var(--white); }
+.ty__title { font-size: var(--fs-display-lg); font-weight: 700; line-height: 1.05; color: var(--blue-900); }
+.ty__text { margin-top: 16px; font-size: var(--fs-body); line-height: 1.35; }
+.ty__text a { color: var(--blue-900); font-weight: 700; }
+.ty__ref { margin-top: 12px; font-size: 14px; color: var(--grey-600); }
+.next { display: flex; justify-content: center; margin-top: 24px; }
+.btn { display: inline-flex; align-items: center; justify-content: center; min-height: 56px; padding: 0 28px; border-radius: 9999px; background: var(--blue-900); color: var(--white); font-size: var(--fs-button); font-weight: 700; text-decoration: none; box-shadow: 0 4px 12px rgba(0, 66, 126, 0.22); }
+</style>
+<script src="../assets/js/main.js" defer></script>
+</head>
+<body data-page="thank-you">
+<header class="top">
+  <div class="inner top__row">
+    <a class="top__logo" href="../index.html" aria-label="Petals Dental, back to the page"><img src="../assets/img/logo.png" alt="" width="131" height="166"></a>
+    <div class="top__actions">
+      <a class="top__phone" href="tel:+919147405955"><span>9147405955</span></a>
+    </div>
+  </div>
+</header>
+<main class="ty">
+  <!-- Shown only after a delivered submission (main.js). A direct visit sees the neutral block and fires nothing. -->
+  <div class="ty__box" data-confirmed hidden>
+    <span class="ty__mark" aria-hidden="true"><svg viewBox="0 0 24 24" width="28" height="28" focusable="false"><path d="M5 12.5l4.5 4.5L19 7.5" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+    <h1 class="ty__title">Thank you</h1>
+    <p class="ty__text">Our team will confirm your consultation by phone or WhatsApp.</p>
+    <p class="ty__text">Need us sooner? Call <a href="tel:+919147405955">9147405955</a>.</p>
+    <p class="ty__ref">Reference: <span data-ref></span></p>
+    <div class="next"><a class="btn btn--navy" href="../index.html">Back to Petals Dental</a></div>
+  </div>
+  <div class="ty__box" data-neutral hidden>
+    <h1 class="ty__title">Petals Dental</h1>
+    <p class="ty__text">To book a consultation, use the form or call <a href="tel:+919147405955">9147405955</a>.</p>
+    <div class="next"><a class="btn btn--navy" href="../index.html#book-hero">Book Consultation</a></div>
+  </div>
+  <noscript><div class="ty__box"><h1 class="ty__title">Petals Dental</h1><p class="ty__text">To book a consultation, call <a href="tel:+919147405955">9147405955</a>.</p></div></noscript>
+</main>
+</body>
+</html>

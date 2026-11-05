@@ -1,0 +1,675 @@
+<!doctype html>
+<html lang="en-IN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<!-- Paid-traffic page. Deliberately noindex and out of every sitemap: the main site's Dentistry page owns search. -->
+<meta name="robots" content="noindex, nofollow">
+<!-- Every dial on this page is an explicit tel: link to 9147405955. This stops phones turning the helpline number in the Loudon Street block into a second dial. -->
+<meta name="format-detection" content="telephone=no">
+<title>Dental Clinic in Kolkata | Petals Health</title>
+<meta name="theme-color" content="#00427e">
+<link rel="icon" type="image/png" href="assets/img/logo.png">
+<!-- The one preloaded image: the LCP. The media queries mirror the <picture> below, so only one file is fetched. -->
+<link rel="preload" as="image" type="image/webp" href="assets/img/dentistry-hero-m.webp" media="(max-width: 767px)">
+<link rel="preload" as="image" type="image/webp" imagesrcset="assets/img/dentistry-hero-m.webp 800w, assets/img/dentistry-hero.webp 1600w" imagesizes="(min-width: 1280px) 760px, 460px" media="(min-width: 768px)">
+<!-- All CSS is inline on purpose: one fewer render-blocking request on slow mobile connections. -->
+<style>
+/* Petals Dental landing page. Values come from petals-web: design/tokens.md, design/type-scale.md, app/src/styles/tokens.css,
+   base.css and templates/treatment.css. Mobile first. Sizes, weights and colours are the main site's tokens only. */
+
+@font-face {
+  font-family: 'Bricolage Grotesque';
+  src: url('assets/fonts/BricolageGrotesque-Variable.woff2') format('woff2');
+  font-weight: 200 800; font-style: normal; font-display: swap;
+}
+/* Metric-matched Arial, so the font swap moves nothing (values measured in petals-web/app/tools/font-ratio.mjs) */
+@font-face { font-family: 'Bricolage Fallback'; src: local('Arial'); font-weight: 400; size-adjust: 103.3%; ascent-override: 93%; descent-override: 27%; line-gap-override: 0%; }
+@font-face { font-family: 'Bricolage Fallback'; src: local('Arial'); font-weight: 500; size-adjust: 104.7%; ascent-override: 93%; descent-override: 27%; line-gap-override: 0%; }
+@font-face { font-family: 'Bricolage Fallback'; src: local('Arial Bold'), local('Arial'); font-weight: 600; size-adjust: 98.5%; ascent-override: 93%; descent-override: 27%; line-gap-override: 0%; }
+@font-face { font-family: 'Bricolage Fallback'; src: local('Arial Bold'), local('Arial'); font-weight: 700; size-adjust: 98.3%; ascent-override: 93%; descent-override: 27%; line-gap-override: 0%; }
+
+:root {
+  --blue-900: #00427e; --accent: #ed1941; --accent-dark: #be1234; --orange-500: #ffb43a;
+  --cta-start: #f86800; --cta-end: #ff4b1d; --grey-800: #1a1a1a; --grey-600: #4d4d4d;
+  --black: #000; --white: #fff; --hero-bg-inner: #fff; --hero-bg-outer: #e3f2ff;
+  --font-sans: 'Bricolage Grotesque', 'Bricolage Fallback', system-ui, sans-serif;
+
+  --fs-display-lg: 34px; --fs-display-md: 30px; --fs-button-lg: 22px; --fs-title: 22px; --fs-button: 18px;
+  --fs-body: 19px; --fs-eyebrow: 14px; --fs-label-lg: 16px; --fs-meta: 14px; --fs-caption: 13px;
+  --radius-pill: 9999px; --radius-card-sm: 10px; --radius-card: 12px; --radius-card-lg: 21px;
+
+  --dur-fast: 150ms; --dur: 220ms; --ease: cubic-bezier(0.2, 0.7, 0.2, 1);
+  --shadow-card-rest: 0 1px 0 rgba(0, 66, 126, 0.06); --shadow-card: 0 12px 28px rgba(0, 66, 126, 0.14);
+  --shadow-card-lg: 0 8px 20px rgba(0, 66, 126, 0.12); --shadow-button: 0 4px 12px rgba(0, 66, 126, 0.22);
+  --ring-card: 0 0 0 1px rgba(0, 66, 126, 0.08); --rule-card: rgba(0, 66, 126, 0.10); --outline-card: rgba(0, 66, 126, 0.30);
+  --focus-ring: var(--blue-900); --focus-ring-on-dark: var(--orange-500);
+
+  --gutter: 16px; --content-width: 1176px; --measure: 52ch; --top-h: 64px; --rail-clear: 52px;
+  --bleed: max(var(--gutter), calc((100vw - var(--content-width)) / 2));
+}
+@media (min-width: 768px) {
+  :root { --gutter: 32px; --fs-display-lg: 44px; --fs-display-md: 40px; --fs-button-lg: 24px; --fs-title: 24px; --fs-button: 20px; --fs-body: 20px; --fs-eyebrow: 16px; --fs-label-lg: 18px; --top-h: 76px; }
+}
+@media (min-width: 1024px) {
+  :root { --gutter: 56px; --fs-display-lg: 58px; --fs-display-md: 53px; --fs-button-lg: 27px; --fs-button: 22px; --fs-body: 21px; --fs-eyebrow: 19px; }
+}
+@media (min-width: 1366px) { :root { --gutter: 95px; } }
+@media (min-width: 1440px) { :root { --gutter: 64px; --content-width: 1440px; } }
+@media (min-width: 1680px) { :root { --content-width: 1600px; } }
+
+*, *::before, *::after { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; scroll-padding-top: calc(var(--top-h) + 16px); scroll-padding-bottom: 16px; scroll-behavior: smooth; }
+body { margin: 0; background: var(--white); color: var(--black); font-family: var(--font-sans); font-size: 16px; line-height: 1.45; font-optical-sizing: auto; font-synthesis: none; overflow-wrap: break-word; }
+img { display: block; max-width: 100%; height: auto; }
+h1, h2, h3, p, ul, figure { margin: 0; }
+ul { padding: 0; list-style: none; }
+a { color: inherit; }
+main:focus { outline: none; }
+.inner { position: relative; width: min(var(--content-width), calc(100% - 2 * var(--gutter))); margin-inline: auto; }
+/* The right edge belongs to the sticky rail. Same idea as the main site's --rail-clear: below 1024 the right gutter widens to
+   hold it, and from 1024 the normal gutter (56 px or more) already does. Nothing but band backgrounds may enter that strip. */
+@media (max-width: 1023px) { .inner { width: calc(100% - var(--gutter) - var(--rail-clear)); margin-inline: var(--gutter) var(--rail-clear); } }
+
+:focus-visible { outline: 2px solid var(--focus-ring); outline-offset: 2px; border-radius: 4px; }
+.close :focus-visible { outline-color: var(--focus-ring-on-dark); }
+.close .form-card :focus-visible { outline-color: var(--focus-ring); }
+
+.skip { position: absolute; left: 8px; top: -80px; z-index: 40; padding: 12px 16px; border-radius: var(--radius-card-sm); background: var(--blue-900); color: var(--white); font-weight: 700; }
+.skip:focus { top: 8px; }
+
+/* ---- buttons ---- */
+.btn { display: inline-flex; align-items: center; justify-content: center; gap: 10px; min-height: 56px; padding: 0 28px; border: 0; border-radius: var(--radius-pill); font-family: inherit; font-weight: 700; line-height: 1.1; text-align: center; text-decoration: none; cursor: pointer; box-shadow: var(--shadow-button); transition: transform var(--dur) var(--ease), box-shadow var(--dur) var(--ease), opacity var(--dur-fast) var(--ease); }
+.btn:hover { transform: translateY(-1px); }
+.btn--navy { background: var(--blue-900); color: var(--white); font-size: var(--fs-button); }
+/* White on this gradient is 3:1, so the label stays large text: --fs-button-lg, never below 22 px bold */
+.btn--cta { background: linear-gradient(90deg, var(--cta-start), var(--cta-end)); color: var(--white); font-size: var(--fs-button-lg); box-shadow: 0 4px 12px rgba(255, 75, 29, 0.28); }
+.btn--sm { min-height: 44px; padding: 0 20px; font-size: 16px; }
+
+/* ---- header ---- */
+.top { background: var(--white); box-shadow: 0 1px 0 var(--rule-card); }
+.top__row { display: flex; align-items: center; justify-content: space-between; gap: 12px; min-height: var(--top-h); padding-block: 6px; }
+.top__logo { display: inline-flex; justify-content: center; min-width: 44px; border-radius: 4px; }
+.top__logo img { width: 41px; height: 52px; }
+.top__actions { display: flex; align-items: center; gap: 12px; }
+.top__phone { display: inline-flex; align-items: center; gap: 8px; min-height: 44px; color: var(--blue-900); font-size: 16px; font-weight: 500; text-decoration: none; }
+.top__phone:hover { text-decoration: underline; text-underline-offset: 3px; }
+.top__book { display: none; }
+@media (min-width: 768px) {
+  .top { position: sticky; top: 0; z-index: 20; }
+  .top__logo img { width: 50px; height: 63px; }
+  .top__actions { gap: 20px; }
+  .top__book { display: inline-flex; }
+}
+
+/* ---- hero: photo on a shelf, copy, form ---- */
+.hero { overflow-x: clip; }
+.hero__grid { display: grid; gap: 20px; }
+.hero__shelf { position: relative; height: 230px; margin-inline: calc(-1 * var(--gutter)) 0; overflow: hidden; border-radius: 0 0 24px 0; background: radial-gradient(640px circle at 50% 70%, var(--hero-bg-inner) 0%, var(--hero-bg-outer) 100%); }
+.hero__img { position: absolute; bottom: 0; left: 50%; width: auto; max-width: none; height: 100%; aspect-ratio: 1600 / 1066; transform: translateX(-45%); }
+.eyebrow { font-size: var(--fs-eyebrow); font-weight: 400; letter-spacing: 0.12em; line-height: 1.2; text-transform: uppercase; color: var(--grey-600); }
+.hero__title { margin-top: 8px; font-size: var(--fs-display-md); font-weight: 700; line-height: 1.05; color: var(--blue-900); }
+.hero__tagline { margin-top: 8px; font-size: var(--fs-button-lg); font-weight: 700; line-height: 1.15; color: var(--accent); }
+.hero__lede { margin-top: 16px; font-size: var(--fs-body); line-height: 1.35; }
+.tracks { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 16px; }
+.tracks li { display: inline-flex; align-items: center; gap: 8px; min-height: 32px; padding: 0 14px 0 10px; border-radius: var(--radius-pill); background: var(--white); color: var(--blue-900); font-size: 14px; font-weight: 500; line-height: 1.2; box-shadow: var(--ring-card); }
+.tracks li::before { content: ''; flex: none; width: 8px; height: 8px; border-radius: 50%; background: var(--orange-500); }
+.hero__call { width: 100%; margin-top: 20px; padding-inline: 12px; }
+.hero__form { margin-top: 4px; }
+@media (min-width: 768px) {
+  .hero { background: linear-gradient(to bottom, rgba(255, 255, 255, 0) calc(100% - 80px), var(--white) 100%), linear-gradient(90deg, var(--white) 0%, #f3f9ff 100%); }
+  .hero__grid { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); grid-template-areas: 'shelf form' 'copy form'; column-gap: 24px; row-gap: 20px; padding-bottom: 48px; }
+  .hero__shelf { grid-area: shelf; height: 300px; margin: 0 0 0 calc(-1 * var(--bleed)); border-radius: 0 0 32px 0; }
+  .hero__copy { grid-area: copy; }
+  .hero__form { grid-area: form; align-self: start; margin-top: 24px; }
+  .hero__call { width: auto; padding-inline: 28px; }
+}
+@media (min-width: 1024px) { .hero__grid { column-gap: 40px; grid-template-columns: minmax(0, 1fr) 420px; } .hero__shelf { height: 240px; } }
+@media (min-width: 1280px) {
+  .hero__grid { grid-template-columns: minmax(0, 1fr) 440px 390px; grid-template-areas: 'shelf copy form'; column-gap: 32px; padding-bottom: 40px; }
+  .hero__shelf { height: auto; min-height: 100%; }
+  .hero__img { height: 74%; }
+  .hero__copy { align-self: center; }
+  .hero__form { margin-top: 16px; }
+}
+@media (min-width: 1680px) { .hero__grid { grid-template-columns: minmax(0, 1fr) 520px 460px; } .hero__img { height: 84%; } }
+
+/* ---- bands and seams ---- */
+.band { position: relative; padding-block: 56px; }
+.band--tint { background: linear-gradient(to bottom, var(--white) 0, rgba(255, 255, 255, 0) 80px, rgba(255, 255, 255, 0) calc(100% - 80px), var(--white) 100%), radial-gradient(750px circle at 50% 50%, #fff 0%, #edf7ff 100%); }
+@media (min-width: 1024px) { .band { padding-block: 80px; } }
+.head { margin-bottom: 32px; text-align: center; }
+@media (min-width: 1024px) { .head { margin-bottom: 48px; } }
+.title { margin-top: 16px; font-size: var(--fs-display-lg); font-weight: 700; line-height: 1.05; color: var(--blue-900); text-wrap: balance; }
+.head > .title:first-child { margin-top: 0; }
+.title__line { display: block; color: var(--accent); }
+.title--left { margin-top: 0; }
+
+/* Measured on slow 4G with 4x CPU: this plus inlining the CSS took LCP at 390 from 2680 ms to 1240 ms, because the variable
+   font otherwise shapes every line of a long page before first paint. */
+.band, .close { content-visibility: auto; contain-intrinsic-size: auto 900px; }
+
+/* ---- cards ---- */
+.grid { display: grid; gap: 14px; }
+@media (min-width: 768px) { .grid--3 { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; } }
+@media (min-width: 1024px) { .grid--3 { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 20px; } }
+.card { display: flex; flex-direction: column; gap: 10px; padding: 20px; border-radius: var(--radius-card); background: var(--white); box-shadow: var(--shadow-card-rest), var(--ring-card); transition: transform var(--dur) var(--ease), box-shadow var(--dur) var(--ease); }
+.card:hover, .card:focus-within { transform: translateY(-2px); box-shadow: var(--shadow-card-lg), var(--ring-card); }
+.card__title { font-size: var(--fs-title); font-weight: 600; line-height: 1.2; color: var(--blue-900); }
+.card__text { font-size: 16px; font-weight: 400; line-height: 1.45; }
+.card__link { display: inline-flex; align-items: center; min-height: 44px; margin-top: auto; color: var(--accent-dark); font-size: 16px; font-weight: 500; text-underline-offset: 3px; }
+
+/* ---- next actions ---- */
+.next { display: flex; flex-wrap: wrap; justify-content: center; gap: 12px; margin-top: 32px; }
+.next--left { justify-content: flex-start; }
+.next .btn { flex: 1 1 200px; }
+@media (min-width: 768px) { .next .btn { flex: 0 0 auto; } }
+
+/* ---- 2. why choose ---- */
+.why { display: grid; gap: 28px; }
+.why__media img { width: 100%; aspect-ratio: 4 / 3; object-fit: cover; object-position: 50% 25%; border-radius: var(--radius-card-lg); }
+.why__list { display: grid; margin-top: 24px; border-top: 1px solid var(--rule-card); }
+.why__list li { display: flex; align-items: center; gap: 12px; min-height: 52px; padding: 8px 0; border-bottom: 1px solid var(--rule-card); color: var(--blue-900); font-size: var(--fs-label-lg); font-weight: 500; }
+.why__list li::before { content: ''; flex: none; width: 10px; height: 10px; border-radius: 50%; background: var(--orange-500); }
+@media (min-width: 768px) {
+  .why { grid-template-columns: 5fr 7fr; gap: 40px; align-items: center; }
+  .why__media img { aspect-ratio: 5 / 6; }
+}
+@media (min-width: 1024px) { .why { gap: 64px; } }
+
+/* ---- before and after: off until real images and consent exist. See SHOW_BEFORE_AFTER in main.js. ---- */
+.ba { display: grid; gap: 24px; }
+@media (min-width: 1024px) { .ba { grid-template-columns: repeat(2, minmax(0, 1fr)); } .ba--one { grid-template-columns: minmax(0, 720px); justify-content: center; } }
+.ba__pair { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; }
+.ba__side { position: relative; overflow: hidden; border-radius: var(--radius-card); background: #edf7ff; }
+.ba__side img { width: 100%; aspect-ratio: 4 / 3; object-fit: cover; }
+.ba__tag { position: absolute; top: 8px; left: 8px; padding: 2px 10px; border-radius: var(--radius-pill); background: var(--blue-900); color: var(--white); font-size: var(--fs-caption); font-weight: 500; }
+.ba__case figcaption { margin-top: 10px; color: var(--blue-900); font-size: 16px; font-weight: 500; }
+.ba__note { margin-top: 20px; color: var(--grey-600); font-size: var(--fs-meta); text-align: center; }
+.tm { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 280px), 1fr)); gap: 16px; }
+.tm--one { grid-template-columns: minmax(0, 720px); justify-content: center; }
+.tm__card { display: flex; flex-direction: column; gap: 16px; margin: 0; padding: 20px; border-radius: var(--radius-card); background: var(--white); box-shadow: var(--shadow-card-rest), var(--ring-card); }
+.tm__quote { margin: 0; font-size: 16px; line-height: 1.5; }
+.tm__who { display: flex; align-items: center; gap: 12px; margin-top: auto; }
+.tm__who img { flex: none; width: 56px; height: 56px; border-radius: 50%; object-fit: cover; }
+.tm__name { display: block; color: var(--blue-900); font-size: 16px; font-weight: 600; line-height: 1.3; }
+.tm__treatment { display: block; color: var(--grey-600); font-size: var(--fs-meta); line-height: 1.3; }
+
+/* ---- booking prompt ---- */
+.band-cta { padding: 24px 20px; border-radius: var(--radius-card-lg); background: var(--white); box-shadow: var(--shadow-card-rest), var(--ring-card); text-align: center; }
+.band-cta .title { margin-top: 0; }
+.band-cta__text { max-width: var(--measure); margin: 12px auto 0; font-size: var(--fs-body); line-height: 1.35; }
+.band-cta .next { margin-top: 20px; }
+@media (min-width: 768px) { .band-cta { padding: 40px; } }
+
+/* ---- FAQ ---- */
+.faq { max-width: 860px; margin-inline: auto; border-top: 1px solid var(--rule-card); }
+.faq__item { border-bottom: 1px solid var(--rule-card); }
+.faq__item summary { display: flex; align-items: center; justify-content: space-between; gap: 16px; min-height: 56px; padding: 12px 0; color: var(--blue-900); font-size: var(--fs-label-lg); font-weight: 600; line-height: 1.25; cursor: pointer; list-style: none; }
+.faq__item summary::-webkit-details-marker { display: none; }
+.faq__item summary::after { content: ''; flex: none; width: 10px; height: 10px; margin-right: 4px; border-right: 2px solid currentColor; border-bottom: 2px solid currentColor; transform: rotate(45deg); transition: transform var(--dur-fast) var(--ease); }
+.faq__item[open] summary::after { transform: rotate(-135deg); }
+.faq__a { padding-bottom: 16px; max-width: var(--measure); font-size: 16px; line-height: 1.45; }
+@media (min-width: 1024px) { .faq__a { font-size: 18px; } }
+
+/* ---- forms: same language as the main site's LeadForm ---- */
+.form-card { padding: 20px; border-radius: var(--radius-card-lg); background: var(--white); box-shadow: var(--shadow-card), var(--ring-card); }
+.lead { display: flex; flex-direction: column; gap: 12px; color: var(--black); }
+.lead__title { font-size: var(--fs-title); font-weight: 600; line-height: 1.17; color: var(--blue-900); }
+.lead__lede { margin-top: -6px; font-size: var(--fs-meta); color: var(--grey-600); }
+.lead__field { display: flex; flex-direction: column; gap: 5px; min-width: 0; }
+.lead__field label { font-size: var(--fs-meta); font-weight: 500; line-height: 16px; color: var(--grey-800); }
+.opt { font-weight: 400; color: var(--grey-600); }
+.lead__pair { display: grid; gap: 12px; }
+@media (min-width: 460px) and (max-width: 767px) { .lead__pair { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (min-width: 1024px) { .lead__pair { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+.lead input:not([type='checkbox']), .lead textarea { width: 100%; min-width: 0; height: 48px; padding: 0 12px; border: 1px solid var(--outline-card); border-radius: var(--radius-card-sm); background: var(--white); color: var(--black); font: inherit; font-size: 16px; }
+.lead textarea { display: block; height: auto; min-height: 64px; padding: 10px 12px; resize: vertical; }
+.lead input::placeholder { color: var(--grey-600); }
+.lead [aria-invalid='true'] { border-color: var(--accent-dark); }
+.lead__error { font-size: var(--fs-caption); line-height: 1.3; color: var(--accent-dark); }
+.lead__error[hidden], .lead__alert[hidden] { display: none; }
+.lead__hp { position: absolute; left: -9999px; top: auto; width: 1px; height: 1px; overflow: hidden; }
+/* the whole label is the checkbox's 44 px target; the link gets its own 44 px without pushing the lines apart */
+.lead__consent { display: flex; gap: 10px; align-items: flex-start; min-height: 44px; padding: 4px 0; font-size: var(--fs-caption); line-height: 18px; color: var(--grey-800); cursor: pointer; }
+.lead__consent input { flex: none; width: 20px; height: 20px; margin: 0; accent-color: var(--blue-900); }
+.lead__consent-wrap .lead__error { margin-top: 4px; }
+.lead__consent a { display: inline-block; margin-block: -13px; padding-block: 13px; color: var(--blue-900); text-decoration: underline; text-underline-offset: 2px; }
+.lead__alert { padding: 12px; border: 1px solid var(--accent-dark); border-radius: var(--radius-card-sm); background: #fff; color: var(--grey-800); font-size: var(--fs-meta); line-height: 1.4; }
+.lead__alert a { color: var(--accent-dark); font-weight: 700; }
+.lead__retry { display: inline-flex; align-items: center; min-height: 44px; margin-top: 8px; padding: 0 18px; border: 1.5px solid var(--blue-900); border-radius: var(--radius-pill); background: var(--white); color: var(--blue-900); font: inherit; font-size: 16px; font-weight: 700; cursor: pointer; }
+.lead__submit { width: 100%; min-height: 52px; font-size: 18px; }
+.lead__submit:disabled { opacity: 0.7; cursor: progress; transform: none; }
+.lead__spinner { display: none; width: 16px; height: 16px; border: 2px solid rgba(255, 255, 255, 0.4); border-top-color: var(--white); border-radius: 50%; animation: lead-spin 0.8s linear infinite; }
+.lead__submit:disabled .lead__spinner { display: block; }
+@keyframes lead-spin { to { transform: rotate(360deg); } }
+@media (min-width: 768px) { .form-card { padding: 24px; } }
+
+/* ---- close: the one navy band ---- */
+.close { position: relative; padding-top: 48px; background: var(--blue-900); color: var(--white); }
+.band--seam::after { content: ''; position: absolute; left: 0; right: 0; bottom: 0; height: 48px; background: linear-gradient(to bottom, rgba(0, 66, 126, 0), rgba(0, 66, 126, 0.08)); pointer-events: none; }
+.close__grid { display: grid; gap: 32px; }
+.close__info { min-width: 0; }
+.close__title { margin-bottom: 16px; font-size: var(--fs-display-md); font-weight: 700; line-height: 1.05; }
+/* clinic tabs: without JavaScript the tab row stays hidden and every clinic shows, stacked, so nothing is unreachable */
+.ctabs__list { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 16px; }
+.ctabs__list[hidden], .cpanel[hidden] { display: none; }
+.ctabs__tab { flex: 1 1 auto; min-height: 44px; padding: 0 10px; white-space: nowrap; border: 1.5px solid rgba(255, 255, 255, 0.55); border-radius: var(--radius-pill); background: transparent; color: var(--white); font: inherit; font-size: 16px; font-weight: 600; line-height: 1.1; cursor: pointer; transition: background-color var(--dur-fast) var(--ease), color var(--dur-fast) var(--ease); }
+.ctabs__tab:hover { border-color: var(--white); }
+.ctabs__tab[aria-selected='true'] { border-color: var(--orange-500); background: var(--orange-500); color: var(--blue-900); }
+.cpanel { display: grid; gap: 16px; padding: 16px; border: 1px solid rgba(255, 255, 255, 0.2); border-radius: var(--radius-card-lg); }
+.cpanel + .cpanel { margin-top: 16px; }
+.cinfo__name { font-size: var(--fs-title); font-weight: 600; line-height: 1.2; }
+.cinfo__area { margin-top: 2px; color: var(--orange-500); font-size: var(--fs-meta); }
+.cinfo__list { display: grid; gap: 10px; margin: 14px 0 0; }
+.cinfo__list dt { color: var(--orange-500); font-size: var(--fs-caption); font-weight: 500; line-height: 1.3; }
+.cinfo__list dd { margin: 2px 0 0; font-size: var(--fs-meta); line-height: 1.45; }
+.cinfo__list a { display: inline-flex; align-items: center; min-height: 44px; margin-block: -10px; color: var(--white); font-size: 16px; font-weight: 500; }
+.cinfo__direction { display: inline-flex; align-items: center; min-height: 44px; margin-top: 8px; color: var(--orange-500); font-size: 16px; font-weight: 600; text-underline-offset: 3px; }
+.cmap { position: relative; aspect-ratio: 16 / 10; overflow: hidden; overflow: clip; border-radius: var(--radius-card); background: #dfe7ee; }
+.cmap__open { display: block; width: 100%; height: 100%; color: var(--blue-900); text-decoration: none; }
+.cmap img { width: 100%; height: 100%; object-fit: cover; }
+/* a phone shows the middle of the map at a readable scale, not the whole of it too small to read. The pin is the exact centre. */
+@media (max-width: 599px) { .cmap img { transform: scale(1.5); } }
+.cmap iframe { display: block; width: 100%; height: 100%; border: 0; }
+.cmap__cta { position: absolute; left: 50%; bottom: 10px; translate: -50% 0; display: inline-flex; align-items: center; min-height: 44px; padding: 0 16px; border-radius: var(--radius-pill); background: var(--white); box-shadow: var(--shadow-button); font-size: var(--fs-meta); font-weight: 600; white-space: nowrap; }
+.cmap__open:focus-visible { outline-offset: -4px; }
+.cmap__credit { display: flex; flex-wrap: wrap; align-items: center; gap: 0 4px; font-size: var(--fs-caption); line-height: 1.3; }
+.cmap__credit[hidden] { display: none; }
+.cmap__credit a { display: inline-flex; align-items: center; min-height: 44px; color: var(--white); }
+@media (min-width: 600px) and (max-width: 1023px), (min-width: 1280px) { .cpanel { grid-template-columns: minmax(0, 5fr) minmax(0, 6fr); gap: 24px; align-items: start; } }
+@media (min-width: 768px) { .ctabs__tab { flex: 0 1 auto; padding: 0 24px; } .cpanel { padding: 24px; } }
+.legal { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 4px 16px; margin-top: 32px; padding-block: 16px; border-top: 1px solid rgba(255, 255, 255, 0.2); font-size: var(--fs-caption); }
+.legal a { display: inline-flex; align-items: center; min-height: 44px; color: var(--white); }
+@media (min-width: 768px) {
+  .close { padding-top: 64px; }
+}
+@media (min-width: 1024px) {
+  .close__grid { grid-template-columns: 440px minmax(0, 1fr); gap: 56px; align-items: start; }
+  .close__info { order: 2; }
+}
+
+/* ---- sticky rail: Book tab centred on the right edge, call button at the bottom right. Both stay inside the strip that
+   .inner keeps clear (44 px wide, ending within 52 px of the edge at any width). The white ring keeps them visible on the
+   navy band. z-index 35: above the sticky header (20), as on the main site. */
+.rail__book, .rail__call { position: fixed; z-index: 35; display: flex; align-items: center; justify-content: center; width: 44px; background: var(--blue-900); color: var(--white); font-weight: 700; line-height: 1; text-decoration: none; box-shadow: 0 0 0 1.5px var(--white), var(--shadow-button); -webkit-tap-highlight-color: transparent; }
+.rail__book { top: 50%; right: 0; translate: 0 -50%; padding: 16px 0; border-radius: var(--radius-card) 0 0 var(--radius-card); font-size: 16px; }
+.rail__book span { writing-mode: vertical-rl; transform: rotate(180deg); white-space: nowrap; }
+.rail__call { right: 4px; bottom: calc(16px + env(safe-area-inset-bottom)); height: 44px; border-radius: 50%; background: linear-gradient(90deg, var(--cta-start), var(--cta-end)); }
+/* two-tone ring: orange shows on the navy band, navy shows on white */
+.rail__book:focus-visible, .rail__call:focus-visible { outline: 2px solid var(--blue-900); outline-offset: 2px; box-shadow: 0 0 0 2px var(--orange-500); }
+.rail__book:hover { background: #00356a; }
+/* short screens (a phone on its side): true centre would hit the call button, so the tab moves up */
+@media (max-height: 360px) { .rail__book { top: 8px; translate: none; } }
+@media (max-height: 280px) { .rail__book { display: none; } }
+/* while a text field has focus on a small screen, the keyboard needs the room */
+@media (max-width: 1023px) { .rail.is-typing .rail__book, .rail.is-typing .rail__call { display: none; } }
+
+/* ---- one-time reveal: below the fold only; main.js adds .rv-on, so without JS nothing is ever hidden ---- */
+@media (prefers-reduced-motion: no-preference) {
+  .rv-on .rv:not(.is-in) { opacity: 0; transform: translateY(12px); }
+  .rv-on .rv { transition: opacity 240ms var(--ease), transform 240ms var(--ease); }
+}
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  *, *::before, *::after { animation: none !important; transition: none !important; }
+  .btn:hover, .card:hover, .card:focus-within { transform: none; }
+  .lead__spinner { border-top-color: rgba(255, 255, 255, 0.4); }
+}
+</style>
+<script src="assets/js/main.js" defer></script>
+</head>
+<body data-page="landing" id="top">
+<a class="skip" href="#main">Skip to content</a>
+
+<header class="top">
+  <div class="inner top__row">
+    <a class="top__logo" href="#top" aria-label="Petals Health, back to top"><img src="assets/img/logo.png" alt="" width="131" height="166"></a>
+    <div class="top__actions">
+      <a class="top__phone" href="tel:+919147405955">
+        <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true" focusable="false"><path d="M6.6 10.8a15 15 0 0 0 6.6 6.6l2.2-2.2a1 1 0 0 1 1-.25 11.4 11.4 0 0 0 3.6.57 1 1 0 0 1 1 1V20a1 1 0 0 1-1 1A17 17 0 0 1 3 4a1 1 0 0 1 1-1h3.5a1 1 0 0 1 1 1c0 1.25.2 2.45.57 3.57a1 1 0 0 1-.25 1z" fill="currentColor"/></svg>
+        <span>9147405955</span>
+      </a>
+      <a class="btn btn--navy btn--sm top__book" href="#book-hero" data-book>Book Consultation</a>
+    </div>
+  </div>
+</header>
+
+<main id="main" tabindex="-1">
+
+  <!-- HERO: photo on a shelf, copy beside it, form in view. Nothing here animates. -->
+  <section class="hero" aria-labelledby="hero-title">
+    <div class="inner hero__grid">
+      <div class="hero__shelf">
+        <picture>
+          <source media="(max-width: 767px)" type="image/webp" srcset="assets/img/dentistry-hero-m.webp">
+          <source media="(max-width: 767px)" type="image/png" srcset="assets/img/dentistry-hero-m.png">
+          <source type="image/webp" srcset="assets/img/dentistry-hero-m.webp 800w, assets/img/dentistry-hero.webp 1600w" sizes="(min-width: 1280px) 760px, 460px">
+          <img class="hero__img" src="assets/img/dentistry-hero.png" alt="A young man laughing" width="1600" height="1066" fetchpriority="high" decoding="async">
+        </picture>
+      </div>
+      <div class="hero__copy">
+        <p class="eyebrow">Petals Dental</p>
+        <h1 class="hero__title" id="hero-title">Dental Clinic in Kolkata</h1>
+        <p class="hero__tagline">Skilled Hands. Caring Approach.</p>
+        <ul class="tracks" aria-label="Dental tracks">
+          <li>General Dentistry</li>
+          <li>Cosmetic Dentistry</li>
+        </ul>
+        <p class="hero__lede">We offer personalised care, from preventative treatments to cosmetic enhancements.</p>
+        <a class="btn btn--cta hero__call" href="tel:+919147405955">Call 9147 405 955</a>
+      </div>
+      <div class="form-card hero__form" id="book-hero">
+        <form class="lead" data-lead-form data-section="hero" novalidate>
+          <h2 class="lead__title">Book your Slot</h2>
+          <p class="lead__lede">Tell us what you need and we will call you back.</p>
+          <div class="lead__field"><label for="hero-name">Full name</label><input id="hero-name" name="name" type="text" autocomplete="name" required aria-describedby="hero-name-err"><p class="lead__error" id="hero-name-err" hidden></p></div>
+          <div class="lead__field"><label for="hero-mobile">Mobile number</label><input id="hero-mobile" name="mobile" type="tel" inputmode="tel" autocomplete="tel" placeholder="10-digit mobile" required aria-describedby="hero-mobile-err"><p class="lead__error" id="hero-mobile-err" hidden></p></div>
+          <div class="lead__pair">
+            <div class="lead__field"><label for="hero-email">Email <span class="opt">(optional)</span></label><input id="hero-email" name="email" type="email" autocomplete="email" aria-describedby="hero-email-err"><p class="lead__error" id="hero-email-err" hidden></p></div>
+            <div class="lead__field"><label for="hero-date">Preferred date <span class="opt">(optional)</span></label><input id="hero-date" name="date" type="date" aria-describedby="hero-date-err"><p class="lead__error" id="hero-date-err" hidden></p></div>
+          </div>
+          <div class="lead__field"><label for="hero-message">Message <span class="opt">(optional)</span></label><textarea id="hero-message" name="message" rows="2"></textarea></div>
+          <div class="lead__hp" aria-hidden="true"><label for="hero-website">Website</label><input id="hero-website" name="website" type="text" tabindex="-1" autocomplete="off"></div>
+          <div class="lead__consent-wrap"><label class="lead__consent"><input id="hero-consent" name="consent" type="checkbox" required aria-describedby="hero-consent-err"><span>I agree to Petals Health storing these details to contact me about this request. <a data-privacy href="privacy-policy.html" target="_blank" rel="noopener">Privacy policy</a></span></label><p class="lead__error" id="hero-consent-err" hidden></p></div>
+          <div class="lead__alert" data-alert role="alert" hidden></div>
+          <button class="btn btn--navy lead__submit" type="submit"><span class="lead__spinner" aria-hidden="true"></span><span data-label>Book Consultation</span></button>
+          <noscript><p class="lead__alert">This form needs JavaScript. Please call <a href="tel:+919147405955">9147405955</a>.</p></noscript>
+        </form>
+      </div>
+    </div>
+  </section>
+
+  <!-- 1. TREATMENTS -->
+  <section class="band" aria-labelledby="treatments-title">
+    <div class="inner">
+      <header class="head">
+        <p class="eyebrow">Dental treatments offered by Petals Health</p>
+        <h2 class="title" id="treatments-title">Whatever Your Teeth Need <span class="title__line">We've Got It Covered</span></h2>
+      </header>
+      <ul class="grid grid--3 rv">
+        <li class="card">
+          <h3 class="card__title">Routine Check-Up &amp; Cleaning</h3>
+          <p class="card__text">Prevention is better than cure.</p>
+          <p class="card__text">Routine oral exams and professional cleaning to catch problems before they start</p>
+          <a class="card__link" href="#book-close">Book Consultation</a>
+        </li>
+        <li class="card">
+          <h3 class="card__title">Root Canal Therapy</h3>
+          <p class="card__text">Don't let tooth pain run your life.</p>
+          <p class="card__text">Treatment for infected or badly decayed teeth, aimed at saving the natural tooth.</p>
+          <a class="card__link" href="#book-close">Book Consultation</a>
+        </li>
+        <li class="card">
+          <h3 class="card__title">Crowns, Bridges &amp; Implants</h3>
+          <p class="card__text">Missing or damaged teeth?</p>
+          <p class="card__text">Crowns restore the shape, size, and strength of damaged teeth.</p>
+          <p class="card__text">Bridges replace missing teeth by attaching to adjacent teeth.</p>
+          <a class="card__link" href="#book-close">Book Consultation</a>
+        </li>
+        <li class="card">
+          <h3 class="card__title">Full-Mouth Rehabilitation</h3>
+          <p class="card__text">For complex or multiple dental conditions, we design a complete treatment plan.</p>
+          <a class="card__link" href="#book-close">Book Consultation</a>
+        </li>
+        <li class="card">
+          <h3 class="card__title">Braces &amp; Clear Aligners</h3>
+          <p class="card__text">Clear, removable aligners to straighten teeth</p>
+          <p class="card__text">Comfortable and discreet alternative to traditional braces</p>
+          <a class="card__link" href="#book-close">Book Consultation</a>
+        </li>
+        <li class="card">
+          <h3 class="card__title">Smile Designing &amp; Veneers</h3>
+          <p class="card__text">Custom veneers to correct chips, gaps, or discolouration on front teeth.</p>
+          <p class="card__text">A combined plan across whitening, shaping, and alignment for a full smile refresh.</p>
+          <a class="card__link" href="#book-close">Book Consultation</a>
+        </li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- 2. WHY CHOOSE -->
+  <section class="band band--tint" aria-labelledby="why-title">
+    <div class="inner why">
+      <div class="why__media rv">
+        <picture>
+          <source type="image/webp" srcset="assets/img/dentistry-safety-m.webp 800w, assets/img/dentistry-safety.webp 1145w" sizes="(min-width: 1024px) 460px, (min-width: 768px) 320px, 100vw">
+          <img src="assets/img/dentistry-safety-m.jpg" alt="A smiling patient in the dental chair with a dentist beside her" width="800" height="960" loading="lazy" decoding="async">
+        </picture>
+      </div>
+      <div class="why__copy">
+        <h2 class="title title--left" id="why-title">Why Choose Petals Dental</h2>
+        <ul class="why__list rv">
+          <li>Skilled dentists</li>
+          <li>Advanced tools like 3D imaging and intraoral scanners</li>
+          <li>Affordable treatment packages with no hidden charges</li>
+          <li>Sterile, hospital-grade environment</li>
+          <li>Patient-First, Always</li>
+        </ul>
+        <div class="next next--left">
+          <a class="btn btn--navy" href="#book-close">Book Consultation</a>
+          <a class="btn btn--cta" href="tel:+919147405955">Call us</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 3. CLINIC -->
+  <section class="band" aria-labelledby="clinic-title">
+    <div class="inner">
+      <header class="head">
+        <h2 class="title" id="clinic-title">A Clinic Built Around <span class="title__line">Your Comfort &amp; Safety</span></h2>
+      </header>
+      <ul class="grid grid--3 rv">
+        <li class="card">
+          <h3 class="card__title">Dental Examinations and <span style="white-space: nowrap">X-rays</span></h3>
+          <p class="card__text">X-rays to detect cavities, bone loss, or hidden dental problems.</p>
+        </li>
+        <li class="card">
+          <h3 class="card__title">Sterile, Hospital-Grade Environment</h3>
+          <p class="card__text">Internationally trusted and ethical dental protocols.</p>
+        </li>
+        <li class="card">
+          <h3 class="card__title">Intraoral Scanning Technology</h3>
+          <p class="card__text">Advanced tools like 3D imaging and intraoral scanners</p>
+        </li>
+      </ul>
+      <div class="next">
+        <a class="btn btn--navy" href="#book-close">Book Consultation</a>
+        <a class="btn btn--cta" href="tel:+919147405955">Call us</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- BEFORE AND AFTER: inert. A template renders nothing and fetches nothing. main.js builds it only when SHOW_BEFORE_AFTER is
+       true and a case has images and a consent reference. No images, placeholders or case data belong in this file. -->
+  <template id="before-after">
+    <section class="band" aria-labelledby="ba-title">
+      <div class="inner">
+        <header class="head">
+          <h2 class="title" id="ba-title">Before and After</h2>
+        </header>
+        <div class="ba rv" data-ba-cases></div>
+        <p class="ba__note">Shown with each patient's written consent. Individual results vary.</p>
+      </div>
+    </section>
+  </template>
+
+  <!-- BOOKING PROMPT -->
+  <section class="band band--tint" aria-labelledby="prompt-title">
+    <div class="inner">
+      <div class="band-cta rv">
+        <h2 class="title" id="prompt-title">Your smile deserves the best.</h2>
+        <p class="band-cta__text">Whether it's been months since your last check-up or you've been quietly putting off that root canal — our team at Petals Dental is ready when you are.</p>
+        <p class="band-cta__text">Book your consultation with Petals Health now and take the first step toward better oral care.</p>
+        <div class="next">
+          <a class="btn btn--navy" href="#book-close">Book Consultation</a>
+          <a class="btn btn--cta" href="tel:+919147405955">Call us</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PATIENT STORIES: inert, built the same way as before and after. main.js builds it only when SHOW_TESTIMONIALS is true and
+       a case has a quote, a name, a treatment and a consent reference. No quotes, names, photos or placeholders belong in this file. -->
+  <template id="testimonials">
+    <section class="band" aria-labelledby="tm-title">
+      <div class="inner">
+        <header class="head">
+          <h2 class="title" id="tm-title">What Patients Say</h2>
+        </header>
+        <div class="tm rv" data-tm-cases></div>
+        <p class="ba__note">Shared with each patient's written consent. Individual experiences vary.</p>
+      </div>
+    </section>
+  </template>
+
+  <!-- FAQ: native accordion, works by keyboard and without JavaScript -->
+  <section class="band band--seam" aria-labelledby="faq-title">
+    <div class="inner">
+      <header class="head">
+        <h2 class="title" id="faq-title">Frequently Asked Questions</h2>
+      </header>
+      <div class="faq rv">
+        <details class="faq__item">
+          <summary>How often should you visit the dentist for a check-up?</summary>
+          <div class="faq__a"><p>It is recommended to visit your dentist at least once every six months for regular check-ups and professional cleanings.</p></div>
+        </details>
+        <details class="faq__item">
+          <summary>Are dental X-rays safe?</summary>
+          <div class="faq__a"><p>Yes, dental X-rays are safe, and modern technology ensures minimal radiation exposure. Your dentist will use them only when necessary to diagnose hidden dental issues.</p></div>
+        </details>
+        <details class="faq__item">
+          <summary>Should my gums be bleeding when I brush?</summary>
+          <div class="faq__a"><p>No - bleeding gums are never normal. They're often an early sign of gingivitis or gum disease.</p></div>
+        </details>
+        <details class="faq__item">
+          <summary>Can a cavity heal by itself?</summary>
+          <div class="faq__a"><p>Unfortunately, no. Once decay sets in, it needs professional treatment to stop it from spreading. The earlier you treat it, the simpler the procedure.</p></div>
+        </details>
+        <details class="faq__item">
+          <summary>How do I know if I need a root canal?</summary>
+          <div class="faq__a"><p>Persistent tooth pain, sensitivity to hot or cold, swelling, or a pimple on the gums are common warning signs of an infected tooth pulp. Visit us before it gets worse.</p></div>
+        </details>
+      </div>
+    </div>
+  </section>
+
+  <!-- CLOSE: the one navy band: second form, clinics, legal -->
+  <section class="close" aria-labelledby="close-title">
+    <div class="inner close__grid">
+      <div class="form-card close__form" id="book-close">
+        <form class="lead" data-lead-form data-section="closing" novalidate>
+          <h2 class="lead__title" id="close-title">Book your Slot</h2>
+          <p class="lead__lede">Tell us what you need and we will call you back.</p>
+          <div class="lead__field"><label for="close-name">Full name</label><input id="close-name" name="name" type="text" autocomplete="name" required aria-describedby="close-name-err"><p class="lead__error" id="close-name-err" hidden></p></div>
+          <div class="lead__field"><label for="close-mobile">Mobile number</label><input id="close-mobile" name="mobile" type="tel" inputmode="tel" autocomplete="tel" placeholder="10-digit mobile" required aria-describedby="close-mobile-err"><p class="lead__error" id="close-mobile-err" hidden></p></div>
+          <div class="lead__pair">
+            <div class="lead__field"><label for="close-email">Email <span class="opt">(optional)</span></label><input id="close-email" name="email" type="email" autocomplete="email" aria-describedby="close-email-err"><p class="lead__error" id="close-email-err" hidden></p></div>
+            <div class="lead__field"><label for="close-date">Preferred date <span class="opt">(optional)</span></label><input id="close-date" name="date" type="date" aria-describedby="close-date-err"><p class="lead__error" id="close-date-err" hidden></p></div>
+          </div>
+          <div class="lead__field"><label for="close-message">Message <span class="opt">(optional)</span></label><textarea id="close-message" name="message" rows="2"></textarea></div>
+          <div class="lead__hp" aria-hidden="true"><label for="close-website">Website</label><input id="close-website" name="website" type="text" tabindex="-1" autocomplete="off"></div>
+          <div class="lead__consent-wrap"><label class="lead__consent"><input id="close-consent" name="consent" type="checkbox" required aria-describedby="close-consent-err"><span>I agree to Petals Health storing these details to contact me about this request. <a data-privacy href="privacy-policy.html" target="_blank" rel="noopener">Privacy policy</a></span></label><p class="lead__error" id="close-consent-err" hidden></p></div>
+          <div class="lead__alert" data-alert role="alert" hidden></div>
+          <button class="btn btn--navy lead__submit" type="submit"><span class="lead__spinner" aria-hidden="true"></span><span data-label>Book Consultation</span></button>
+          <noscript><p class="lead__alert">This form needs JavaScript. Please call <a href="tel:+919147405955">9147405955</a>.</p></noscript>
+        </form>
+      </div>
+      <div class="close__info">
+        <h2 class="close__title" id="clinics-title">Our Locations</h2>
+        <div class="ctabs" data-clinic-tabs>
+          <div class="ctabs__list" role="tablist" aria-labelledby="clinics-title" hidden>
+            <button class="ctabs__tab" type="button" role="tab" id="tab-kankurgachi" aria-controls="panel-kankurgachi" aria-selected="true">Kankurgachi</button>
+            <button class="ctabs__tab" type="button" role="tab" id="tab-tollygunge" aria-controls="panel-tollygunge" aria-selected="false" tabindex="-1">Tollygunge</button>
+            <button class="ctabs__tab" type="button" role="tab" id="tab-loudon" aria-controls="panel-loudon" aria-selected="false" tabindex="-1">Loudon Street</button>
+          </div>
+          <div class="cpanel" id="panel-kankurgachi" data-clinic-panel>
+            <div class="cinfo">
+              <h3 class="cinfo__name">Petals Family Clinic</h3>
+              <p class="cinfo__area">Kankurgachi</p>
+              <dl class="cinfo__list">
+                <div><dt>Address</dt><dd>1st Floor, VIP Complex, P 30/1, Kankurgachi Rd, Kadapara, Phool Bagan, Kankurgachi, Kolkata, West Bengal 700054</dd></div>
+                <div><dt>Operating Hours</dt><dd>Monday to Saturday, 7:30 AM to 7:30 PM</dd></div>
+                <div><dt>Phone</dt><dd><a href="tel:+919147405955">9147405955</a></dd></div>
+                <div><dt>Email</dt><dd><a href="mailto:info@petalshealth.in">info@petalshealth.in</a></dd></div>
+              </dl>
+              <a class="cinfo__direction" href="https://maps.app.goo.gl/eoyi7CrpJe9CrE2N6" target="_blank" rel="noopener">Get Direction</a>
+            </div>
+            <div>
+              <!-- A picture until clicked: main.js swaps in the live map then. Without JavaScript the link opens Google Maps. -->
+              <div class="cmap" data-map data-embed="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3684.1215387602197!2d88.3899957!3d22.574557199999997!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3a027734cd39aa8d%3A0x801479ff6812b3c0!2sPetals%20Family%20Clinic%20%7C%20Woman%20%26%20Child%20Care%20%7C%20Infertility%20%7C%20Diagnostic%20Centre!5e0!3m2!1sen!2sin!4v1744175657562!5m2!1sen!2sin" data-title="Map of Petals Family Clinic, Kankurgachi">
+                <a class="cmap__open" href="https://maps.app.goo.gl/eoyi7CrpJe9CrE2N6" target="_blank" rel="noopener">
+                  <img src="assets/img/map-kankurgachi.webp" alt="Street map with a pin on Petals Family Clinic, Kankurgachi" width="720" height="450" loading="lazy" decoding="async">
+                  <span class="cmap__cta">View interactive map</span>
+                </a>
+              </div>
+              <p class="cmap__credit" data-map-credit>Map data <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener">© OpenStreetMap contributors</a></p>
+            </div>
+          </div>
+          <div class="cpanel" id="panel-tollygunge" data-clinic-panel>
+            <div class="cinfo">
+              <h3 class="cinfo__name">Petals Family Clinic</h3>
+              <p class="cinfo__area">Tollygunge</p>
+              <dl class="cinfo__list">
+                <div><dt>Address</dt><dd>Moore Heights. Moore Avenue, 93, Manick Bandopadhyay Sarani, Near Malancha Cinema Hall, Kolkata – 700040</dd></div>
+                <div><dt>Operating Hours</dt><dd>Monday to Saturday, 7:30 AM to 7:30 PM</dd></div>
+                <div><dt>Phone</dt><dd><a href="tel:+919147405955">9147405955</a></dd></div>
+                <div><dt>Email</dt><dd><a href="mailto:info@petalshealth.in">info@petalshealth.in</a></dd></div>
+              </dl>
+              <a class="cinfo__direction" href="https://maps.app.goo.gl/j37bDViJVZQcApeL8" target="_blank" rel="noopener">Get Direction</a>
+            </div>
+            <div>
+              <!-- A picture until clicked: main.js swaps in the live map then. Without JavaScript the link opens Google Maps. -->
+              <div class="cmap" data-map data-embed="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3686.4934131220834!2d88.35041919999999!3d22.485663499999998!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3a0271f5d741cd31%3A0xb3b87bd436c626a9!2sPetals%20Family%20Clinic%20%7C%20Woman%20%26%20Child%20Care%20%7C%20Infertility%20%7C%20Diagnostic%20Centre!5e0!3m2!1sen!2sin!4v1744175123706!5m2!1sen!2sin" data-title="Map of Petals Family Clinic, Tollygunge">
+                <a class="cmap__open" href="https://maps.app.goo.gl/j37bDViJVZQcApeL8" target="_blank" rel="noopener">
+                  <img src="assets/img/map-tollygunge.webp" alt="Street map with a pin on Petals Family Clinic, Tollygunge" width="720" height="450" loading="lazy" decoding="async">
+                  <span class="cmap__cta">View interactive map</span>
+                </a>
+              </div>
+              <p class="cmap__credit" data-map-credit>Map data <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener">© OpenStreetMap contributors</a></p>
+            </div>
+          </div>
+          <div class="cpanel" id="panel-loudon" data-clinic-panel>
+            <div class="cinfo">
+              <h3 class="cinfo__name">Calcutta Medical Center — A Unit of Petals</h3>
+              <p class="cinfo__area">Loudon Street</p>
+              <dl class="cinfo__list">
+                <div><dt>Address</dt><dd>Maruti Building, 1st Floor, 12 Loudon Street, Opp: Bellevue Hospital, Kolkata 700017</dd></div>
+                <div><dt>Operating Hours</dt><dd>Monday to Saturday, 07:30 AM – 07:30 PM</dd></div>
+                <!-- The only place the helpline number appears, as the user decided, and on purpose not a tel: link: every dial on the page stays 9147405955. -->
+                <div><dt>Phone</dt><dd>+91 91474 05960</dd></div>
+                <div><dt>Email</dt><dd><a href="mailto:info@petalshealth.in">info@petalshealth.in</a></dd></div>
+              </dl>
+              <a class="cinfo__direction" href="https://www.google.com/maps/search/?api=1&amp;query=Calcutta%20Medical%20Centre%2C%20Maruti%20Building%2C%2012%20Loudon%20Street%2C%20Kolkata%20700017" target="_blank" rel="noopener">Get Direction</a>
+            </div>
+            <div>
+              <!-- A picture until clicked: main.js swaps in the live map then. Without JavaScript the link opens Google Maps. -->
+              <div class="cmap" data-map data-embed="https://www.google.com/maps?q=Calcutta%20Medical%20Centre%2C%20Maruti%20Building%2C%2012%20Loudon%20Street%2C%20Kolkata%20700017&amp;output=embed" data-title="Map of Calcutta Medical Center, Loudon Street">
+                <a class="cmap__open" href="https://www.google.com/maps/search/?api=1&amp;query=Calcutta%20Medical%20Centre%2C%20Maruti%20Building%2C%2012%20Loudon%20Street%2C%20Kolkata%20700017" target="_blank" rel="noopener">
+                  <img src="assets/img/map-loudon.webp" alt="Street map with a pin on Calcutta Medical Center, Loudon Street" width="720" height="450" loading="lazy" decoding="async">
+                  <span class="cmap__cta">View interactive map</span>
+                </a>
+              </div>
+              <p class="cmap__credit" data-map-credit>Map data <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener">© OpenStreetMap contributors</a></p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <footer class="inner legal">
+      <p>© Copyright 2026 | www.petalshealth.in | All Rights Reserved.</p>
+      <a data-privacy href="privacy-policy.html" target="_blank" rel="noopener">Privacy policy</a>
+    </footer>
+  </section>
+</main>
+
+<!-- Sticky call and book, at every width. Hidden only while a text field has focus on a small screen, so never over the keyboard. -->
+<nav class="rail" aria-label="Call or book">
+  <a class="rail__book" href="#book-hero" data-book><span>Book your Appointment</span></a>
+  <a class="rail__call" href="tel:+919147405955" aria-label="Call 9147405955">
+    <svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true" focusable="false"><path d="M6.6 10.8a15 15 0 0 0 6.6 6.6l2.2-2.2a1 1 0 0 1 1-.25 11.4 11.4 0 0 0 3.6.57 1 1 0 0 1 1 1V20a1 1 0 0 1-1 1A17 17 0 0 1 3 4a1 1 0 0 1 1-1h3.5a1 1 0 0 1 1 1c0 1.25.2 2.45.57 3.57a1 1 0 0 1-.25 1z" fill="currentColor"/></svg>
+  </a>
+</nav>
+</body>
+</html>
