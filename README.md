@@ -1,4 +1,4 @@
-# Petals Dental landing page
+# Petals Health Dental Clinic landing page
 
 Paid-traffic page. Pure HTML, CSS and vanilla JS with no build step: double-click `index.html`, or host the folder as it is.
 
@@ -50,8 +50,23 @@ The client publishes none for Loudon Street, so its pin (22.5428905, 88.3561401)
 "Calcutta Medical Centre Limited" listing at Maruti Buildings, 12 Sir UN Brahmachari Sarani. Replace them if the client sends a link.
 
 The Loudon Street block is the only place `+91 91474 05960` appears, and it is plain text on purpose. Every call button, the
-sticky widget, the error message and every `tel:` link dial 9147405955. `format-detection` stops phones auto-linking the
-number. The launch check fails if any of this changes.
+sticky widget, the error message and every `tel:` link dial +91 91477 69585 (changed from the earlier number on 2026-11-16).
+`format-detection` stops phones auto-linking the number. The launch check fails if any of this changes, and fails the old
+number or the old name "Petals Dental" anywhere in the deployed files.
+
+## Names
+
+The clinic is "Petals Health Dental Clinic" everywhere: eyebrow, headings, body, FAQ, title, description, sharing tags, schema. "Petals Health"
+alone is fine where the full name reads heavy mid-sentence. "Petals Dental" appears nowhere.
+
+## FAQ and structured data
+
+The FAQ is plain `<details>` markup, so its text is in the HTML for crawlers and answer engines. The `FAQPage` JSON-LD in the
+head must repeat the visible questions and answers word for word; the launch check fails a mismatch. Edit the FAQ in one place
+and regenerate the other. The same script carries a `Dentist` entry with the three addresses and the Monday to Saturday hours.
+Note for the client: Google no longer shows FAQ rich results, so the schema is for comprehension and other engines, not a
+search dropdown. Every answer is built only from facts the client has published or confirmed; what is still unconfirmed is
+listed by the launch check.
 
 ## Before and after section
 

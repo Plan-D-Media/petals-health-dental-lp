@@ -1,4 +1,4 @@
-/* Petals Dental landing page. Vanilla JS, no build step. Lead handling ported from petals-web/app/src/forms/{submit,attribution}.js. */
+/* Petals Health Dental Clinic landing page. Vanilla JS, no build step. Lead handling ported from petals-web/app/src/forms/{submit,attribution}.js. */
 (function () {
   'use strict';
 
@@ -8,8 +8,8 @@
     GTM_ID: 'GTM-PLACEHOLDER',                                         // Google Tag Manager container id
     SITE_URL: '',                                                      // where this page is hosted, e.g. https://example.com/dental/ . Empty = worked out from this file's address
     PRIVACY_URL: 'privacy-policy.html',                                // local copy of the interim notice, until the client's text arrives
-    PHONE_DISPLAY: '9147405955',
-    PHONE_TEL: '+919147405955',
+    PHONE_DISPLAY: '+91 91477 69585',
+    PHONE_TEL: '+919147769585',
 
     // Before and after section. Off: renders nothing and fetches nothing. Turn on by changing this one line, once the case list
     // below is filled. A case with no consentRef never renders, and tools/launch-check.mjs fails it. See README.
@@ -471,7 +471,7 @@
     var no = document.querySelector('[data-neutral]');
     if (!valid) { no.hidden = false; return; }
     yes.hidden = false;
-    document.title = 'Thank you | Petals Dental';
+    document.title = 'Thank you | Petals Health Dental Clinic';
     var ref = document.querySelector('[data-ref]');
     if (ref) ref.textContent = lead.id.slice(0, 8).toUpperCase();
     if (!lead.fired) {
