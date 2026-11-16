@@ -15,8 +15,8 @@ nobody later assumes a source said these things. Held content is not on the page
 | Hero intro | "We offer personalised care, from preventative treatments to cosmetic enhancements." | Dental page, cut before "ensuring a healthier, more confident you" |
 | Crowns card | "Crowns restore the shape, size, and strength of damaged teeth." "Bridges replace missing teeth by attaching to adjacent teeth." | General |
 | Braces card | "Clear, removable aligners to straighten teeth" "Comfortable and discreet alternative to traditional braces" | Cosmetic |
-| Why Choose | "Skilled dentists", "Advanced tools like 3D imaging and intraoral scanners", "Affordable treatment packages with no hidden charges", "Sterile, hospital-grade environment" | General |
-| Clinic cards | "Dental Examinations and X-rays", "X-rays to detect cavities, bone loss, or hidden dental problems.", "Internationally trusted and ethical dental protocols.", "Advanced tools like 3D imaging and intraoral scanners" | General |
+| Why Choose | "Skilled dentists", "Affordable treatment packages with no hidden charges", "Sterile, hospital-grade environment" | General. "Advanced tools like 3D imaging and intraoral scanners" was also taken from here and removed on 2026-11-16: the client confirmed in writing they have neither |
+| Clinic cards | "Dental Examinations and X-rays", "X-rays to detect cavities, bone loss, or hidden dental problems.", "Internationally trusted and ethical dental protocols." | General. The "Intraoral Scanning Technology" card, with the same 3D imaging line, was removed on 2026-11-16 for the same reason |
 | Booking prompt | "Your smile deserves the best." "Book your consultation with Petals Health now and take the first step toward better oral care." | General; one sentence split into a heading and a line |
 | FAQ | "How often should you visit the dentist for a check-up?" and its answer; the "Are dental X-rays safe?" answer | General |
 | Hours | "Monday to Saturday, 7:30 AM to 7:30 PM" | Contact and CMC unit pages, reworded; their Sunday hours left off by decision |
