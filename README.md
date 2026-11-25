@@ -3,19 +3,27 @@
 Paid-traffic page. Pure HTML, CSS and vanilla JS with no build step: double-click `index.html`, or host the folder as it is.
 
 ```
-index.html              the page, with all its CSS inline (inlining is deliberate; see the comment in the CSS)
-thank-you/index.html    conversion page: noindex, its own small stylesheet
-assets/js/main.js       forms, attribution, sticky rail behaviour. CONFIG at the top is the one place to set things
-assets/fonts, img       Bricolage Grotesque subset and images, from petals-web
-privacy-policy.html     interim privacy notice, written to what this page actually does
-tools/launch-check.mjs  terminal check, run before any deploy. Renders nothing on the page
-DEVIATIONS.md           everything on the page that is not verbatim from a source, and why
+index.html                 the page, with all its CSS inline (inlining is deliberate; see the comment in the CSS)
+thank-you/index.html       conversion page: noindex, its own small stylesheet
+assets/js/main.js          forms, attribution, sticky rail, flagged sections. CONFIG at the top is the one place to set things
+assets/js/dentists.js      the Meet Your Dentists data. Empty: the client has supplied none of it
+assets/fonts, img          Bricolage Grotesque subset and images, from petals-web
+privacy-policy.html        interim privacy notice, written to what this page actually does
+tools/launch-check.mjs     terminal check, run before any deploy. Renders nothing on the page
+tools/regen-faq-schema.mjs rewrites the FAQ structured data from the visible FAQ. Run after editing the FAQ
+HANDOVER.md                what the client still owes, what is flagged off, and the open conflicts
+DEVIATIONS.md              everything on the page that is not verbatim from a source, and why
 ```
+
+`HANDOVER.md` opens with the one thing that must not be missed: `ENDPOINT` is still a placeholder, so **every form
+submission currently fails and no lead is stored**. The page must not take paid traffic until it is wired.
 
 ## Before launch
 
-Run `node tools/launch-check.mjs`. It exits 1 if the config is unset, noindex is lost or held wording is on the page. It also
-lists what is still held with the client and which published lines may draw an ad disapproval; those do not fail it.
+Run `node tools/launch-check.mjs`. It exits 1 if the config is unset, `noindex` is lost, held wording is on the page, the hours
+have drifted from `CONFIG.HOURS_*`, the FAQ and its schema disagree, two CTA blocks sit in a row, or client data listed in
+`HANDOVER.md` is still missing. It also lists what is held with the client and which published lines may draw an ad
+disapproval; those are reports, not failures.
 
 Nothing on the page depends on this check. Once `GTM_ID` is real, tags load and conversions count.
 
@@ -30,6 +38,69 @@ Set in `CONFIG`, at the top of `assets/js/main.js`:
 
 In GTM, keep Meta's automatic advanced matching and Google's enhanced conversions off, or the privacy notice must change. It
 says the page passes those tools a reference number and not the visitor's name, mobile number, email address or message.
+
+## Hours: one source of truth
+
+`CONFIG.HOURS_WEEK`, `HOURS_SUN`, `HOURS_DENTIST` and `HOURS_SCHEMA` in `assets/js/main.js` are the only place the
+hours are set (client's final word for this LP, 25 November 2026):
+
+| | |
+|---|---|
+| Clinic | Monday to Saturday, 8:00 AM to 8:00 PM |
+| Clinic | Sunday, 8:00 AM to 2:00 PM (half day) |
+| Dentist | A dentist is in from 10:00 AM to 7:30 PM |
+
+`index.html` is a static page with no build step, so those strings are also written into its markup, meta description,
+sharing tags and structured data. The launch check compares **every** mention against `CONFIG` and fails on any
+difference, so the three canonical lines, the four clock times, each clinic card, the schema's
+`openingHoursSpecification` and both descriptions can never drift apart. Change the hours in `CONFIG`, update the
+markup to match, then run the check.
+
+The main site's Loudon Street / Calcutta Medical Centre block still says 07:30 AM – 07:30 PM. That conflict is logged
+in `HANDOVER.md` for the client, not fixed here.
+
+## Meet Your Dentists
+
+`assets/js/dentists.js` holds the data and is **empty**: the client has supplied none of it. While it is empty the
+section does not exist on the page — no heading, no cards, no placeholder faces, no "Dr. Name", no stock photography.
+The launch check **fails** while it is empty, and fails an entry missing any of its six fields.
+
+| Needed per dentist | |
+|---|---|
+| `name` | As the dentist is registered |
+| `qualification` | `BDS` or `BDS, MDS`, as awarded |
+| `speciality` | What they treat, in the client's own words |
+| `registration` | The Dental Council registration number. Shown as plain text next to the qualification, prefixed "Reg. no." |
+| `photo` | `assets/img/dentists/<slug>.webp`, square, 480x480, up to 45 KB |
+| `photoAlt` | A plain description of the photograph |
+
+Cards are equal height per row (the grid stretches them), one column below 600 px, two to 1024, three above. Nothing
+may sit in `assets/img` that no page uses: everything under `assets/` deploys to a public URL and the launch check
+fails a stray file.
+
+## Google reviews
+
+A link out to the clinic's own Google Business Profile, **not** the testimonials section. It reproduces no review text
+and no rating, so the words and the star rating stay Google's data rather than copy on this page. Off:
+`SHOW_GOOGLE_REVIEWS` and `GOOGLE_REVIEWS_URL` in `CONFIG` turn it on. The same regulatory sign-off is needed first;
+see `HANDOVER.md`.
+
+## Blocked FAQ entries
+
+`CONFIG.BLOCKED_FAQS` holds the questions the client has not answered. Each renders nothing while its `a` is empty.
+Filling `a` puts the question on the page **and** into the FAQ structured data in the same pass, so the two cannot
+disagree; move it into `index.html` at the next content round too, so a crawler that does not run JavaScript sees it.
+The launch check lists every empty one and fails while any is empty.
+
+## Calls to action
+
+One inline CTA block per major section, and never two with nothing but a heading between them: that was the client's
+objection in this round. The page has exactly one inline CTA pair, in the booking prompt. The sticky Book tab and the
+floating call button are always present and are not counted against the rule — part of why the inline repetition read
+as heavy. The hero has its own call button and form, and each treatment card has its own Book Consultation link.
+
+The launch check fails two CTA blocks with less than 400 characters of text between them, and it counts the CTA inside
+a flagged-off template as soon as that flag goes on.
 
 ## Clearing a hold
 
@@ -62,8 +133,17 @@ alone is fine where the full name reads heavy mid-sentence. "Petals Dental" appe
 ## FAQ and structured data
 
 The FAQ is plain `<details>` markup, so its text is in the HTML for crawlers and answer engines. The `FAQPage` JSON-LD in the
-head must repeat the visible questions and answers word for word; the launch check fails a mismatch. Edit the FAQ in one place
-and regenerate the other. The same script carries a `Dentist` entry with the three addresses and the Monday to Saturday hours.
+head must repeat the visible questions and answers word for word; the launch check fails a mismatch. **Do not hand-edit the
+schema**: edit the FAQ in `index.html`, then run `node tools/regen-faq-schema.mjs`, which rebuilds the schema from the page
+using the same text extraction the launch check uses. The same script carries a `Dentist` entry with the three addresses and
+the hours.
+
+One block element per line inside `.faq__a`, please. The extraction strips tags and collapses whitespace, so `</p><p>` with no
+space between them would run two sentences together in the schema. There must also be no nested `<div>` inside `.faq__a`.
+
+The emergency answer's last line — swelling spreading to the face or neck, or trouble breathing or swallowing — is
+`.faq__urgent`, set apart with a red rule because it is the one answer that matters clinically. The launch check fails if that
+class disappears.
 Note for the client: Google no longer shows FAQ rich results, so the schema is for comprehension and other engines, not a
 search dropdown. Every answer is built only from facts the client has published or confirmed; what is still unconfirmed is
 listed by the launch check.
@@ -96,7 +176,7 @@ Nothing identifying goes in this repo.
 
 ## Testimonials section
 
-Off, and built the same way, directly after the booking prompt. `SHOW_TESTIMONIALS` in `CONFIG` is the one line that turns it on,
+Off, and built the same way, after the Google reviews block. `SHOW_TESTIMONIALS` in `CONFIG` is the one line that turns it on,
 once `TESTIMONIAL_CASES` is filled. The layout is an inert `<template>`. A case with no `consentRef`, quote, name or treatment
 never renders, and the launch check fails it whether the flag is on or off. The same sign-off is required first: the advisory
 names testimonials too. The reference page's three named testimonials, their photos and their wording do not go in this
@@ -132,5 +212,6 @@ The conversion is `generate_lead`, pushed to the data layer on the thank-you pag
 ## Indexing
 
 Noindex on both pages, no sitemap and no `robots.txt`. Do not add a `robots.txt` block, or Google cannot see the noindex. Do
-not add a canonical to the main site. `.vercelignore` keeps `tools/`, `DEVIATIONS.md` and this file off a Vercel deploy; on
+not add a canonical to the main site. `.vercelignore` keeps `tools/`, `DEVIATIONS.md`, `HANDOVER.md` and this file off a Vercel
+deploy; on
 any other host, exclude them the same way.

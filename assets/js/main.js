@@ -11,6 +11,18 @@
     PHONE_DISPLAY: '+91 91477 69585',
     PHONE_TEL: '+919147769585',
 
+    // ---- HOURS: the one place the clinic's and the dentist's hours are set (client's final word, 2026-11-25). ----
+    // index.html is a no-build static page, so the strings are also written into its markup, meta description and schema.
+    // tools/launch-check.mjs compares every mention on the page against these three lines and the schema block below, and
+    // fails on any drift, so changing the hours means changing them HERE and re-running the check.
+    HOURS_WEEK: 'Monday to Saturday, 8:00 AM to 8:00 PM',
+    HOURS_SUN: 'Sunday, 8:00 AM to 2:00 PM (half day)',
+    HOURS_DENTIST: 'A dentist is in from 10:00 AM to 7:30 PM',
+    HOURS_SCHEMA: [
+      { days: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'], opens: '08:00', closes: '20:00' },
+      { days: ['Sunday'], opens: '08:00', closes: '14:00' }
+    ],
+
     // Before and after section. Off: renders nothing and fetches nothing. Turn on by changing this one line, once the case list
     // below is filled. A case with no consentRef never renders, and tools/launch-check.mjs fails it. See README.
     SHOW_BEFORE_AFTER: false,
@@ -23,7 +35,25 @@
     SHOW_TESTIMONIALS: false,
     // { quote: '...', name: '...', treatment: 'Root Canal Treatment', consentRef: 'PD-TM-001',
     //   photo: 'assets/img/tm/case-1', photoAlt: '...' }   photo is optional: it needs a -160.webp file, and photoAlt
-    TESTIMONIAL_CASES: []
+    TESTIMONIAL_CASES: [],
+
+    // Google reviews. NOT the testimonials section: this is a link out to the clinic's own Google Business Profile, so the
+    // review wording and the rating stay Google's data rather than copy on this page. Off. Turning it on needs the profile
+    // URL below AND the same regulatory sign-off, because the National Dental Commission advisory of 14 Oct 2026 covers a
+    // dentist publishing patient testimonials. See README and HANDOVER.
+    SHOW_GOOGLE_REVIEWS: false,
+    GOOGLE_REVIEWS_URL: '',
+
+    // FAQ entries the client has not answered yet. Each renders nothing while `a` is empty. Fill `a` and the entry appears
+    // on the page and is added to the FAQPage schema in the same pass, so the two cannot disagree. tools/launch-check.mjs
+    // lists every empty one as missing client data and fails while any is empty.
+    BLOCKED_FAQS: [
+      { q: 'Do you treat children?', a: '' },
+      { q: 'Do you accept insurance or cashless treatment?', a: '' },
+      { q: 'Do I need an appointment, or can I just walk in?', a: '' },
+      { q: 'What payment methods do you accept?', a: '' },
+      { q: 'Are you open on public holidays?', a: '' }
+    ]
   };
   // =======================================================================================================================
 
@@ -442,13 +472,101 @@
     tpl.parentNode.replaceChild(section, tpl);
   }
 
+  // ---- meet your dentists. The data is assets/js/dentists.js, which the page loads before this file. Nothing renders while
+  // that list is empty, and an entry missing any of its six fields never renders: no placeholder face and no partial card. ----
+  function renderDentists() {
+    var tpl = document.getElementById('dentists');
+    if (!tpl) return;
+    var list = (window.PETALS_DENTISTS || []).filter(function (d) {
+      return d && d.name && d.photo && d.photoAlt && d.qualification && d.speciality && d.registration;
+    });
+    if (!list.length) return;
+    var section = tpl.content.cloneNode(true);
+    var box = section.querySelector('[data-docs]');
+    list.forEach(function (d) {
+      var li = document.createElement('li');
+      li.className = 'doc';
+      var img = document.createElement('img');
+      img.className = 'doc__photo';
+      img.src = BASE + d.photo;
+      img.alt = d.photoAlt;
+      img.width = 480; img.height = 480; img.loading = 'lazy'; img.decoding = 'async';
+      var body = document.createElement('div');
+      body.className = 'doc__body';
+      var name = document.createElement('h3');
+      name.className = 'doc__name';
+      name.textContent = d.name;
+      // the registration number is plain text beside the qualification, never a link or a badge
+      var qual = document.createElement('p');
+      qual.className = 'doc__qual';
+      qual.appendChild(document.createTextNode(d.qualification + ' '));
+      var reg = document.createElement('span');
+      reg.className = 'doc__reg';
+      reg.textContent = 'Reg. no. ' + d.registration;
+      qual.appendChild(reg);
+      var spec = document.createElement('p');
+      spec.className = 'doc__speciality';
+      spec.textContent = d.speciality;
+      body.appendChild(name); body.appendChild(qual); body.appendChild(spec);
+      li.appendChild(img); li.appendChild(body);
+      box.appendChild(li);
+    });
+    tpl.parentNode.replaceChild(section, tpl);
+  }
+
+  // ---- google reviews: a link to the clinic's own profile. Nothing renders unless the flag is on and the URL is https. ----
+  function renderGoogleReviews() {
+    var tpl = document.getElementById('google-reviews');
+    if (!tpl || !CONFIG.SHOW_GOOGLE_REVIEWS) return;
+    if (!/^https:\/\//.test(CONFIG.GOOGLE_REVIEWS_URL || '')) return;
+    var section = tpl.content.cloneNode(true);
+    section.querySelector('[data-grev-link]').href = CONFIG.GOOGLE_REVIEWS_URL;
+    tpl.parentNode.replaceChild(section, tpl);
+  }
+
+  // ---- blocked FAQs: an entry appears only once the client's answer is filled in, and it goes into the FAQPage schema in the
+  // same pass so the visible text and the schema still match. Move it into index.html at the next content round as well, so a
+  // crawler that does not run JavaScript sees it too. ----
+  function renderBlockedFaqs() {
+    var faq = document.querySelector('.faq');
+    var ready = (CONFIG.BLOCKED_FAQS || []).filter(function (f) { return f && f.q && f.a; });
+    if (!faq || !ready.length) return;
+    ready.forEach(function (f) {
+      var item = document.createElement('details');
+      item.className = 'faq__item';
+      var summary = document.createElement('summary');
+      summary.textContent = f.q;
+      var answer = document.createElement('div');
+      answer.className = 'faq__a';
+      var p = document.createElement('p');
+      p.textContent = f.a;
+      answer.appendChild(p);
+      item.appendChild(summary); item.appendChild(answer);
+      faq.appendChild(item);
+    });
+    var tag = document.querySelector('script[type="application/ld+json"]');
+    if (!tag) return;
+    try {
+      var data = JSON.parse(tag.textContent);
+      var page = (data['@graph'] || [data]).filter(function (n) { return n['@type'] === 'FAQPage'; })[0];
+      if (!page || !page.mainEntity) return;
+      ready.forEach(function (f) {
+        page.mainEntity.push({ '@type': 'Question', name: f.q, acceptedAnswer: { '@type': 'Answer', text: f.a } });
+      });
+      tag.textContent = JSON.stringify(data);
+    } catch (e) { /* the served schema stays as it is */ }
+  }
+
   // ---- pages ----
   function initLanding() {
     captureAttribution();
     Array.prototype.forEach.call(document.querySelectorAll('[data-privacy]'), function (a) { a.href = CONFIG.PRIVACY_URL; });
     Array.prototype.forEach.call(document.querySelectorAll('[data-lead-form]'), bindForm);
+    renderDentists();
     renderBeforeAfter();
+    renderGoogleReviews();
     renderTestimonials();
+    renderBlockedFaqs();
     initClinicTabs();
     initMaps();
     initBookLinks();
