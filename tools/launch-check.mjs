@@ -123,6 +123,10 @@ for (const [k, v] of Object.entries(H)) {
   if (!v) fail.push(`CONFIG.HOURS_${k.toUpperCase()} is not set in main.js`)
   else if (!pageText.includes(v)) fail.push(`the page never states the ${k} hours in their canonical wording: "${v}"`)
 }
+// the public-holiday closure the client confirmed on 2026-11-25. Page-wide, not per clinic card: he asked for it in the
+// timings and emergency answers, and it also has its own FAQ entry.
+if (!config.HOURS_HOLIDAYS) fail.push('CONFIG.HOURS_HOLIDAYS is not set in main.js')
+else if (!pageText.includes(config.HOURS_HOLIDAYS)) fail.push(`the page never states the public-holiday closure in its canonical wording: "${config.HOURS_HOLIDAYS}"`)
 // no stale hours in any spelling, anywhere
 for (const [name, body] of [['index.html', index], ['thank-you/index.html', thanks], ['privacy-policy.html', privacy]]) {
   for (const bad of ['07:30', '19:30', '7:30 AM', '7.30', '3:30 PM', 'twelve hours']) {
@@ -180,7 +184,7 @@ const held = [
   // removed sections and headings. The two section headings are allowed only inside their inert templates, which this search skips
   'Before and After', 'What Patients Say', 'Proven Outcomes', 'Results You Can See', 'Results You', 'Testimonial', 'Sedation', 'sedation',
   // unconfirmed services and details
-  'Invisalign', 'Paediatric', 'Rawdon', 'State of Art', 'Experienced Dental Team', 'Hospital-grade sanitisation', 'Fully Sterilised', 'Digital X-Ray',
+  'Invisalign', 'Rawdon', 'State of Art', 'Experienced Dental Team', 'Hospital-grade sanitisation', 'Fully Sterilised', 'Digital X-Ray',
   // equipment the client confirmed in writing they do not have (2026-11-16)
   '3D imaging', '3D Imaging', 'intraoral', 'Intraoral', 'scanner',
   // pricing-promise wording the client himself took out (2026-11-25): publish starting-from prices or reword. There are no
@@ -209,21 +213,20 @@ const HOLDS = [
   ['99% success, 100% satisfaction, 500+ patients, 4.9 rating', 'A dated source for each; a profile link for the rating'],
   ['"Up to 90% less radiation"', 'A published source for the figure'],
   ['Sedation Dentistry card', 'Confirmation they offer it and who administers it. "Completely painless" stays out regardless'],
-  ['Paediatric Dentistry', 'Confirmation they offer it; their dental pages list General and Cosmetic only. Separately, the client has been asked whether they treat children at all'],
   ['Invisalign', 'Confirmation they are an authorised provider'],
   ['Payment options', 'The client wrote "UPI, cards, EMI (?)". The question mark is his. Nothing is published until he confirms which methods are accepted'],
-  ['Public holidays', 'Whether the clinic states a closure. He confirmed Sunday is a half day but said nothing about holidays, so the page says nothing'],
   ['Insurance and cashless treatment', 'Unknown. Nothing on the page either way'],
   ['Walk-in or appointment only', 'Unknown. Nothing on the page either way'],
   ['Starting-from prices', 'His own instruction was prices or a reword. There are no prices, so card 04 of Why Choose reads "Costs explained before treatment starts"'],
   ['"Expert care. Honest pricing. Zero judgment."', 'Nothing needed: deleted'],
   ['"Advanced tools like 3D imaging and intraoral scanners"', 'Nothing needed: the client confirmed in writing (Nov 2026) they have neither. Removed 2026-11-16; stays out'],
-  ['Same-day or emergency appointments', 'Confirmation of the policy. The emergency FAQ gives the hours, says to call and say it is urgent, and sends an out-of-hours emergency to a hospital'],
+  ['Same-day or emergency appointments', 'Confirmation of the policy. The emergency FAQ says to call and say it is urgent, gives the clinic and dentist hours and the public-holiday closure, and says that a call outside those hours is answered and the caller directed to the nearest hospital emergency department'],
   ['Durations per treatment', 'Chair time per treatment. The visits FAQ now carries his rough visit counts, as guides rather than promises, and no durations'],
   ['Free first consultation', 'The client\'s booking form says "Your First consultation is on US". Not on the page: confirm it applies to dental, and to walk-in as well as video'],
   ['Local anaesthetic for root canals', 'Confirmation, so the pain FAQ can say the tooth is numbed first'],
 ]
 const CONFIRM = [
+  'Public holidays: the client confirmed on 2026-11-25 that the clinic is closed, and the page says so in the timings answer, the emergency answer and its own FAQ entry. It is NOT in the structured data: schema.org can only express a closed day as a specialOpeningHoursSpecification with validFrom and validThrough dates, so it needs a list from the client of the dates the clinic shuts. Ask for the dates if he wants it marked up',
   'Loudon Street address: from the client\'s dental page. Its CMC unit page gives 11 A Sarojini Naidu Sarani and its forms say Rawdon Street',
   'Loudon Street name and phone: neither is on the dental page\'s card for this clinic',
   'Loudon Street map: the pin and live map are Google\'s "Calcutta Medical Centre Limited" listing, not a link from the client',

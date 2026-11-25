@@ -13,11 +13,15 @@
 
     // ---- HOURS: the one place the clinic's and the dentist's hours are set (client's final word, 2026-11-25). ----
     // index.html is a no-build static page, so the strings are also written into its markup, meta description and schema.
-    // tools/launch-check.mjs compares every mention on the page against these three lines and the schema block below, and
+    // tools/launch-check.mjs compares every mention on the page against these four lines and the schema block below, and
     // fails on any drift, so changing the hours means changing them HERE and re-running the check.
     HOURS_WEEK: 'Monday to Saturday, 8:00 AM to 8:00 PM',
     HOURS_SUN: 'Sunday, 8:00 AM to 2:00 PM (half day)',
     HOURS_DENTIST: 'A dentist is in from 10:00 AM to 7:30 PM',
+    // The client confirmed the closure on 2026-11-25. A fragment, not a sentence, because the page says it two ways:
+    // "We are closed on public holidays" in the timings and emergency answers, "is closed on public holidays" in its own
+    // FAQ entry. The launch check requires this wording somewhere on the page.
+    HOURS_HOLIDAYS: 'closed on public holidays',
     HOURS_SCHEMA: [
       { days: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'], opens: '08:00', closes: '20:00' },
       { days: ['Sunday'], opens: '08:00', closes: '14:00' }
@@ -47,12 +51,13 @@
     // FAQ entries the client has not answered yet. Each renders nothing while `a` is empty. Fill `a` and the entry appears
     // on the page and is added to the FAQPage schema in the same pass, so the two cannot disagree. tools/launch-check.mjs
     // lists every empty one as missing client data and fails while any is empty.
+    // Answered on 2026-11-25 and therefore no longer here: "Do you treat children?" (yes, paediatric dentistry is a running
+    // service) and "Are you open on public holidays?" (closed). Both are now static markup in index.html, so a crawler that
+    // does not run JavaScript sees them, and both are in the regenerated FAQPage schema.
     BLOCKED_FAQS: [
-      { q: 'Do you treat children?', a: '' },
       { q: 'Do you accept insurance or cashless treatment?', a: '' },
       { q: 'Do I need an appointment, or can I just walk in?', a: '' },
-      { q: 'What payment methods do you accept?', a: '' },
-      { q: 'Are you open on public holidays?', a: '' }
+      { q: 'What payment methods do you accept?', a: '' }
     ]
   };
   // =======================================================================================================================

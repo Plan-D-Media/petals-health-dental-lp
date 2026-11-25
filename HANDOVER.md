@@ -34,6 +34,18 @@ Four values in `CONFIG`, at the top of `assets/js/main.js`, must be set before l
 
 ## 2. What the client still owes us
 
+**Six items, down from eight.** On 25 November 2026 he answered two of them:
+
+- **Children: yes.** Paediatric dentistry is a running service. It is now a visible FAQ answer and a seventh treatments
+  card, "Children's Dentistry". No age range, no named dentist and no claim about the child's experience: he confirmed
+  none of that. "Paediatric" has come off the launch check's held-wording list.
+- **Public holidays: closed.** It is now stated in the timings answer, in the emergency answer and in its own FAQ entry,
+  and the wording comes from `CONFIG.HOURS_HOLIDAYS` like the rest of the hours. It is **not** in the structured data;
+  see section 4, item 6.
+
+Both were moved out of `CONFIG.BLOCKED_FAQS` and written into `index.html` as ordinary markup, so a crawler that does
+not run JavaScript sees them, and `node tools/regen-faq-schema.mjs` put them into the FAQ structured data.
+
 Nothing below has been written around or guessed. In each case the structure is built and left empty, the page shows
 nothing at all, and `node tools/launch-check.mjs` fails and names it.
 
@@ -43,14 +55,13 @@ nothing at all, and `node tools/launch-check.mjs` fails and names it.
 | 2 | **Insurance / cashless treatment** — do they accept it? | `CONFIG.BLOCKED_FAQS` in `main.js`, the "Do you accept insurance or cashless treatment?" entry |
 | 3 | **Walk-in or appointment only?** | `CONFIG.BLOCKED_FAQS`, the "Do I need an appointment, or can I just walk in?" entry |
 | 4 | **Payment options.** He wrote "UPI, cards, EMI (?)". The question mark is his, so nothing is published — not EMI, not any method | `CONFIG.BLOCKED_FAQS`, the "What payment methods do you accept?" entry |
-| 5 | **Public holidays** — does the clinic state a closure? He confirmed Sunday is a half day but said nothing about holidays, so the page says nothing | `CONFIG.BLOCKED_FAQS`, the "Are you open on public holidays?" entry |
-| 6 | **Do they treat children?** Likely yes, but not confirmed, so it is not assumed | `CONFIG.BLOCKED_FAQS`, the "Do you treat children?" entry |
-| 7 | **Does the dentist's 10:00 AM – 7:30 PM apply on Sunday,** when the clinic closes at 2:00 PM? The two sets of hours overlap only partly | The page states both separately and claims nothing about the overlap. Nothing to change unless he corrects it |
-| 8 | **Do the clinic hours apply to all three Kolkata clinics, or only some?** The timings FAQ says "all three Kolkata clinics", which is a claim about all of them | Clinic cards and the timings FAQ, if the answer differs per clinic |
+| 5 | **Does the dentist's 10:00 AM – 7:30 PM apply on Sunday,** when the clinic closes at 2:00 PM? The two sets of hours overlap only partly | The page states both separately and claims nothing about the overlap. **This now needs an answer.** The rewritten emergency answer puts "Sunday, 8:00 AM to 2:00 PM (half day)" and "A dentist is in from 10:00 AM to 7:30 PM" in consecutive sentences, so a reader meets the contradiction head-on |
+| 6 | **Do the clinic hours apply to all three Kolkata clinics, or only some?** The timings FAQ says "all three Kolkata clinics", which is a claim about all of them | Clinic cards and the timings FAQ, if the answer differs per clinic |
 
-Items 2–6 are each **one line to switch on**: fill the `a` field of that entry in `CONFIG.BLOCKED_FAQS`. The question
+Items 2–4 are each **one line to switch on**: fill the `a` field of that entry in `CONFIG.BLOCKED_FAQS`. The question
 then appears in the FAQ and is added to the FAQ structured data in the same pass, so the two cannot disagree. Move it
-into `index.html` at the next content round as well, so that a crawler which does not run JavaScript also sees it.
+into `index.html` at the next content round as well, so that a crawler which does not run JavaScript also sees it —
+that is what was done for the children and public-holiday answers above.
 
 ---
 
@@ -136,7 +147,13 @@ decision from him, not from us.
    (11 A Sarojini Naidu Sarani) and his forms say Rawdon Street. The map pin, live map and Get Direction come from
    Google's own "Calcutta Medical Centre Limited" listing, because he has published no link for this clinic.
 
-6. **FAQ structured data is not a search feature.** Google no longer shows FAQ rich results. The schema is there for
+6. **Public holidays are not in the structured data.** The page says the clinic is closed on public holidays, in three
+   places. Schema.org can only express a closed day as a `specialOpeningHoursSpecification` with `validFrom` and
+   `validThrough` **dates** — there is no "closed on public holidays" value. Marking it up therefore needs his list of
+   the dates the clinic shuts, and that list would need updating every year. Ask for the dates if he wants it; the
+   visible text answers the question either way.
+
+7. **FAQ structured data is not a search feature.** Google no longer shows FAQ rich results. The schema is there for
    comprehension and for answer engines, not for a dropdown in the search results. Please do not sell it as one.
 
 ---
@@ -161,11 +178,12 @@ node tools/regen-faq-schema.mjs  # run after editing the FAQ, then run the launc
 ```
 
 The launch check fails on: unset config, lost `noindex`, held wording, a stray image in `assets/img`, the wrong phone
-number, the old name, the US "Center" spelling, an FAQ/schema mismatch, hours that drift from `CONFIG.HOURS_*`, more
-than one `h1`, two CTA blocks in a row, an incomplete dentist or testimonial entry, and any of the client data in
-section 2 still being missing.
+number, the old name, the US "Center" spelling, an FAQ/schema mismatch, hours that drift from `CONFIG.HOURS_*`, the
+public-holiday closure missing from the page, more than one `h1`, two CTA blocks in a row, an incomplete dentist or
+testimonial entry, and any of the client data in section 2 still being missing.
 
-Hours live in exactly one place: `CONFIG.HOURS_WEEK`, `HOURS_SUN`, `HOURS_DENTIST` and `HOURS_SCHEMA` in
+Hours live in exactly one place: `CONFIG.HOURS_WEEK`, `HOURS_SUN`, `HOURS_DENTIST`, `HOURS_HOLIDAYS` and
+`HOURS_SCHEMA` in
 `assets/js/main.js`. `index.html` is a static page with no build step, so the strings are also written into its markup,
 meta description and structured data — and the launch check compares every one of them against `CONFIG` and fails on
 any difference. Change the hours there, then re-run the check.

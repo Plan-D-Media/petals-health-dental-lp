@@ -21,8 +21,8 @@ submission currently fails and no lead is stored**. The page must not take paid 
 ## Before launch
 
 Run `node tools/launch-check.mjs`. It exits 1 if the config is unset, `noindex` is lost, held wording is on the page, the hours
-have drifted from `CONFIG.HOURS_*`, the FAQ and its schema disagree, two CTA blocks sit in a row, or client data listed in
-`HANDOVER.md` is still missing. It also lists what is held with the client and which published lines may draw an ad
+have drifted from `CONFIG.HOURS_*`, the public-holiday closure has gone from the page, the FAQ and its schema disagree, two CTA
+blocks sit in a row, or client data listed in `HANDOVER.md` is still missing. It also lists what is held with the client and which published lines may draw an ad
 disapproval; those are reports, not failures.
 
 Nothing on the page depends on this check. Once `GTM_ID` is real, tags load and conversions count.
@@ -92,6 +92,11 @@ Filling `a` puts the question on the page **and** into the FAQ structured data i
 disagree; move it into `index.html` at the next content round too, so a crawler that does not run JavaScript sees it.
 The launch check lists every empty one and fails while any is empty.
 
+Three are left: insurance/cashless, walk-in vs appointment, and payment methods. The children and public-holiday
+entries were answered on 25 November 2026 and have been through the full round trip — filled, then moved into
+`index.html` as ordinary `<details>` markup and removed from `CONFIG.BLOCKED_FAQS`, with the schema regenerated. Do the
+same with the remaining three when their answers arrive.
+
 ## Calls to action
 
 One inline CTA block per major section, and never two with nothing but a heading between them: that was the client's
@@ -144,6 +149,11 @@ space between them would run two sentences together in the schema. There must al
 The emergency answer's last line — swelling spreading to the face or neck, or trouble breathing or swallowing — is
 `.faq__urgent`, set apart with a red rule because it is the one answer that matters clinically. The launch check fails if that
 class disappears.
+
+The rest of that answer has an order the client set and it should keep: call and say it is urgent, **then** the hours and the
+public-holiday closure, **then** what happens if you call outside them. The clinic answers the call and directs the caller to
+the nearest hospital emergency department; it does not tell anyone to skip calling. Do not compress it back into one
+paragraph that reads as "we are closed, go elsewhere".
 Note for the client: Google no longer shows FAQ rich results, so the schema is for comprehension and other engines, not a
 search dropdown. Every answer is built only from facts the client has published or confirmed; what is still unconfirmed is
 listed by the launch check.
